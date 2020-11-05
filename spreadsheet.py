@@ -25,7 +25,7 @@ client = gspread.authorize(creds)
 
 # Find sheet by url
 spreadsheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1h67jenbOxA9a8g4M2ow3OHCabA_4D1oGCNg-4ic7a8A/edit?usp=sharing")
-sheet = spreadsheet.sheet2
+sheet = spreadsheet.worksheet("Attendance")
 
 sheet.update([df.columns.values.tolist()] + df.values.tolist())
 
