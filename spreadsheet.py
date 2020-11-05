@@ -2,7 +2,7 @@ import os
 import json
 import gspread
 import urllib.request
-import pandas
+import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 
 
