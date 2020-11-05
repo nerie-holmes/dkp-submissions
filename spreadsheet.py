@@ -14,12 +14,12 @@ df = pd.json_normalize(data)
 # use creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds']
 
-json_creds = os.environ.get('GSHEET')
-creds_dict = json.loads(json_creds)
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+#json_creds = os.environ.get('GSHEET')
+#creds_dict = json.loads(json_creds)
+#creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 
-#json_creds = os.getenv("GOOGLE_SHEETS_CREDS_JSON")
-#creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
+json_creds = os.getenv("GSHEET")
+creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
 
 client = gspread.authorize(creds)
 
@@ -27,7 +27,13 @@ client = gspread.authorize(creds)
 spreadsheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1h67jenbOxA9a8g4M2ow3OHCabA_4D1oGCNg-4ic7a8A/edit?usp=sharing")
 sheet = spreadsheet.worksheet("Attendance")
 
-sheet.update([df.columns.values.tolist()] + df.values.tolist())
+
+print(df.columns.values.tolist())
+df.fillna('', inplace=True)
+print(df.values.tolist())
+
+sheet.update([df.values.tolist()])
+#sheet.update([df.columns.values.tolist()] + [[vv if pd.notnull(vv) else '' for vv in ll] for ll in df.values.tolist()])
 
 # Extract and print all of the values
 #rows = sheet.get_all_records()
