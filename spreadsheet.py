@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 url = "https://kc.kobotoolbox.org/api/v1/data/546740?format=json"
-response = urllib.urlopen(url)
+response = urllib.request.urlopen(url)
 data = json.loads(response.read())
 df = pd.json_normalize(data)
 
