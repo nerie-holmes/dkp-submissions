@@ -11,14 +11,14 @@ url = "https://kc.kobotoolbox.org/api/v1/data/546740?format=json"
 # Use creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds']
 
-# Local
-#json_creds = os.environ.get('GSHEET')
-#creds_dict = json.loads(json_creds)
-#creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-
 # Global
-json_creds = os.getenv("GSHEET")
-creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
+json_creds = os.environ.get('GSHEET')
+creds_dict = json.loads(json_creds)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+
+# Local
+#json_creds = os.getenv("GSHEET_FILE")
+#creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
 
 client = gspread.authorize(creds)
 
