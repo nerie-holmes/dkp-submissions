@@ -12,13 +12,13 @@ url = "https://kc.kobotoolbox.org/api/v1/data/546740?format=json"
 scope = ['https://spreadsheets.google.com/feeds']
 
 # Global
-json_creds = os.environ.get('GSHEET')
-creds_dict = json.loads(json_creds)
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+#json_creds = os.environ.get('GSHEET')
+#creds_dict = json.loads(json_creds)
+#creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 
 # Local
-#json_creds = os.getenv("GSHEET_FILE")
-#creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
+json_creds = os.getenv("GSHEET_FILE")
+creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
 
 client = gspread.authorize(creds)
 
@@ -33,16 +33,14 @@ def foo():
     df = pd.json_normalize(data)
 
     # Do some clean up for submission to Google Sheet
-    df.fillna('', inplace=True)
-    df = df.applymap(str)
-
     col_names = ['_submission_time', 'Boss', 'Player', 'Toon', 'Comment']
     edf  = pd.DataFrame(columns = col_names)
 
     dff = df[df.columns & col_names]
     dff = pd.concat([edf,dff], axis=0, ignore_index=True)
     dff = dff.rename(columns={'_submission_time': 'DateTime'})
-    dff.sort_values(by=['DateTime'], ascending=False)
+    dff = dff.sort_values(by=['DateTime'], ascending=False)
+    dff = dff.applymap(str)
 
     # Update the sheet
     sheet.update([dff.columns.values.tolist()] + dff.values.tolist())
@@ -50,4 +48,4 @@ def foo():
     # Call function in a new thread with timer
     threading.Timer(60, foo).start()
 
-foo()    
+foo()
