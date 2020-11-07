@@ -35,8 +35,14 @@ def foo():
     # Do some clean up for submission to Google Sheet
     df.fillna('', inplace=True)
     df = df.applymap(str)
-    dff = df[['_submission_time', 'Boss', 'Player', 'Toon', 'Comment']]
+
+    col_names = ['_submission_time', 'Boss', 'Player', 'Toon', 'Comment']
+    edf  = pd.DataFrame(columns = col_names)
+
+    dff = df[df.columns & col_names]
+    dff = pd.concat([edf,dff], axis=0, ignore_index=True)
     dff = dff.rename(columns={'_submission_time': 'DateTime'})
+    dff.sort_values(by=['DateTime'], ascending=False)
 
     # Update the sheet
     sheet.update([dff.columns.values.tolist()] + dff.values.tolist())
