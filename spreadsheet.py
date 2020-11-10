@@ -46,6 +46,6 @@ def foo():
     sheet.update([dff.columns.values.tolist()] + dff.values.tolist())
 
     # Call function in a new thread with timer
-    threading.Timer(60, foo).start()
+    # threading.Timer(60, foo).start()
 
 foo()
