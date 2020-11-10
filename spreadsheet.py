@@ -12,13 +12,13 @@ url = "https://kc.kobotoolbox.org/api/v1/data/546740?format=json"
 scope = ['https://spreadsheets.google.com/feeds']
 
 # Global
-#json_creds = os.environ.get('GSHEET')
-#creds_dict = json.loads(json_creds)
-#creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+json_creds = os.environ.get('GSHEET')
+creds_dict = json.loads(json_creds)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 
 # Local
-json_creds = os.getenv("GSHEET_FILE")
-creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
+#json_creds = os.getenv("GSHEET_FILE")
+#creds = ServiceAccountCredentials.from_json_keyfile_name(json_creds, scope)
 
 client = gspread.authorize(creds)
 
